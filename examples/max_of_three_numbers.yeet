@@ -1,0 +1,21 @@
+# compute the max of 3 numbers
+
+a: number = 1
+b: number = 2
+c: number = 3
+
+max: number = a
+
+if > b max
+    max = b
+end
+
+if c max >
+    max = c
+end
+
+# or: 
+# max = ? > b max b max
+# max = ? > c max c max
+
+-> max

@@ -1,0 +1,18 @@
+# compute the solutions for a 2nd order equation
+# ax^2 + bx + c
+
+a: number = 2
+b: number = 3
+c: number = 4
+
+# operations are written in prefix notation
+# delta = -(^(b, 2), *(4, *(a, c)))
+# r1 = /(+(😂(b), ^(delta, 0.5)), *(2, a))
+# r2 = /(-(😂(b), ^(delta, 0.5)), *(2, a))
+
+delta: number = - ^ b 2 * 4 * a c
+r1: number = / + 😂 b ^ delta 0.5 * 2 a
+r2: number = / - 😂 b ^ delta 0.5 * 2 a
+
+-> r1
+-> r2
