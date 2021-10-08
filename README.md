@@ -25,7 +25,7 @@ if > b max
     max = b
 end
 
-if c max >
+if > c max
     max = c
 end
 
