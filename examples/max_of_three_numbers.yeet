@@ -1,21 +1,21 @@
 # compute the max of 3 numbers
 
-a: number = 1
-b: number = 2
-c: number = 3
+decl a number 1
+decl b number 2
+decl c number 3
 
-max: number = a
+decl max number a
 
 if > b max
-    max = b
+    set max b
 end
 
 if > c max
-    max = c
+    set max c
 end
 
 # or: 
-# max = ? > b max b max
-# max = ? > c max c max
+# set max ? > b max b max
+# set max ? > c max c max
 
 -> max

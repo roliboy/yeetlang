@@ -1,11 +1,11 @@
 # compute the sum of n numbers read from stdin
 
-sum: number = 0
-n: number = 5
+decl sum number 0
+decl n number 5
 
 while > n 0
-    sum = + sum ># <-
-    n = - n 1
+    set sum + sum ># <-
+    set n - n 1
 end
 
 -> sum
