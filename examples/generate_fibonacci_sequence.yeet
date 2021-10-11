@@ -1,0 +1,20 @@
+decl limit number 10
+decl sequence (number) (0, 1)
+
+decl index number 2
+
+while < index limit
+    decl t1 number @ sequence - index 2
+    decl t2 number @ sequence - index 1
+
+    set @ sequence index + t1 t2
+
+    set index + index 1
+end
+
+set index 0
+
+while < index limit
+    -> @ sequence index
+    set index + index 1
+end
