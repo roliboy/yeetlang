@@ -164,7 +164,7 @@ digit = "0" | "1" | ... | "9"
 
 - string
     ```ebnf
-    string_constant = "'" {string} "'"
+    string_constant = "'" {character} "'"
     character = letter | digit | special
     letter = "a" | "b" | ... | "z" | "A" | "B" | ... | "Z"
     special_character = "_" | " "
