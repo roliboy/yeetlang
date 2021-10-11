@@ -101,7 +101,6 @@ end
 ## special symbols
 
 - operators:
-    - `=` - assignment
     - `<-` - input
     - `->` - output
     - `>#` - parse number
@@ -125,11 +124,12 @@ end
 - separators:
     - `<space>` - separating atoms
     - `<newline>` - separating statements
-    - `:` - separating variable from type annotation
     - `,` - separating elements of list literals
     - `(` - beginning of list literal or list type declaration
     - `)` - end of list literal or list type declaration
 - reserved words:
+    - `decl` - declare a new variable
+    - `set` - set value of a variable
     - `while` - beginning of while statement
     - `if` - beginning of if statement
     - `elif` - "else if" branch of if statement
