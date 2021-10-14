@@ -28,7 +28,7 @@ expression =
     value_expression
 
 function_expression =
-    no_argument_function |
+    no_argument_function  |
     one_argument_function |
     two_argument_function |
     three_argument_function
