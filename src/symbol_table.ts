@@ -45,8 +45,8 @@ export class SymbolTable<T> {
     }
   }
 
-  // draw ascii representation of symbol table contents
-  draw() {
-    console.table([...this.elements].map((x) => x || null));
+  // return list of symbols
+  getSymbols() {
+    return [...this.elements];
   }
 }
