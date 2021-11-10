@@ -57,6 +57,10 @@ export class FiniteAutomata {
       if (!transition) return "invalid transition";
       currentState = transition[2];
     }
-    return "valid sequence";
+    if (this.finalStates.includes(currentState)) {
+      return "valid sequence";
+    } else {
+      return "invalid final state";
+    }
   }
 }
