@@ -1,6 +1,13 @@
 import { parse } from "https://deno.land/std/flags/mod.ts";
 import { readFile } from "./util.ts";
-import { Grammar } from "./grammar.ts";
+import { grammarFromRaw, createAugmentedGrammar } from "./grammar.ts";
+import { toCanonicalCollection } from "./canonical_collection.ts";
+import { collectionToParsingTable } from "./parsing_table.ts";
+import { parseSequence } from "./parser.ts";
+import {
+  toDerivationsString,
+  derivationsToString,
+} from "./derivations_string.ts";
 
 const args = parse(Deno.args);
 
@@ -11,38 +18,53 @@ if (!args.i) {
 
 const input = await readFile(args.i);
 
-const nonTerminals = input[0].split(",").map((x) => x.trim());
-const terminals = input[1].split(",").map((x) => x.trim());
-const startSymbol = input[2].trim();
-const productions = input
-  .slice(3)
-  .map((x) => x.split(/->/).map((y) => y.trim()));
+const nonTerminals = input[0];
+const terminals = input[1];
+const startSymbol = input[2];
+const productions = input.slice(3);
 
-const fa = new Grammar({
+const grammar = grammarFromRaw({
   nonTerminals,
   terminals,
   startSymbol,
   productions,
 });
 
-let selection = "";
-while (selection != "0") {
-  console.log("0. exit");
-  console.log("1. show non-terminals");
-  console.log("2. show terminals");
-  console.log("3. show productions");
-  console.log("4. show productions for non-terminal");
-  console.log("5. check context-free");
+// console.log("non terminals: ");
+// console.log(getNonTerminalsToString(grammar));
+// console.log("terminals: ");
+// console.log(getTerminalsToString(grammar));
+// console.log("productions: ");
+// console.log(getProductionsToString(grammar));
+// console.log("productions for A: ");
+// console.log(getProductionsForNonTerminalToString(grammar, "A"));
+// console.log("context free: ");
+// console.log(checkContextFree(grammar));
 
-  selection = prompt("selection: ") || "";
+const augmentedGrammar = createAugmentedGrammar(grammar);
+// console.log("augmented grammar: ");
+// console.log(JSON.stringify(augmentedGrammar, null, 2));
 
-  if (selection == "0") break;
-  if (selection == "1") console.log(fa.getNonTerminals());
-  if (selection == "2") console.log(fa.getTerminals());
-  if (selection == "3") console.log(fa.getProductions());
-  if (selection == "4")
-    console.log(
-      fa.getProductionsForNonTerminal(prompt("non-terminal: ") || "")
-    );
-  if (selection == "5") console.log(fa.checkContextFree());
-}
+const canonicalCollection = toCanonicalCollection(augmentedGrammar);
+// console.log("canonical collection: ");
+// console.log(canonicalCollectionToString(canonicalCollection));
+
+const parsingTable = collectionToParsingTable(
+  canonicalCollection,
+  augmentedGrammar
+);
+
+// console.log("parsingTable:");
+// console.log(parsingTableToString(parsingTable));
+
+const sequence = "abbc";
+console.log(`parsing: ${sequence}`);
+
+const parseProductions = parseSequence(
+  `${sequence}`,
+  parsingTable,
+  augmentedGrammar
+);
+const derivations = toDerivationsString(`${sequence}`, parseProductions);
+
+console.log(derivationsToString(derivations));

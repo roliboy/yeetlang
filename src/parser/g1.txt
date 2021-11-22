@@ -1,7 +1,7 @@
-S, A
-a, b
+S, A, B
+a, b, c
 S
-S -> aS
-S -> Ab
-A -> aA
-A -> ε
+S -> a A
+A -> b B
+B -> A
+B -> c
