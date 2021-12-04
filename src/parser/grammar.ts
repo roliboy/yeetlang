@@ -2,9 +2,16 @@ export interface Symbol {
   value: string;
 }
 
+export const MARKER = {
+  value: ".",
+};
+
+export const END = {
+  value: "$",
+};
+
 export interface Production {
   id: number;
-  closure: number;
   from: Symbol;
   to: Array<Symbol>;
 }
@@ -44,7 +51,6 @@ export const grammarFromRaw = ({
       return r;
     }, Array<Array<string>>())
     .map((production, index) => ({
-      closure: 0,
       id: index,
       from: { value: production[0] },
       to: production[1].split(" ").map((x) => ({ value: x })),
@@ -61,64 +67,14 @@ export const createAugmentedGrammar = (grammar: Grammar): Grammar => ({
   startSymbol: { value: `${grammar.startSymbol.value}'` },
   productions: [
     {
-      closure: 0,
       id: 0,
       from: { value: `${grammar.startSymbol.value}'` },
-      to: [{ value: "." }, { value: grammar.startSymbol.value }],
+      to: [MARKER, { value: grammar.startSymbol.value }],
     },
     ...grammar.productions.map(({ id, from, to }) => ({
-      closure: 0,
       id: id + 1,
       from: from,
-      to: [{ value: "." }, ...to],
+      to: [MARKER, ...to],
     })),
   ],
 });
-
-export const getNonTerminalsToString = (grammar: Grammar) =>
-  grammar.nonTerminals.map((x) => x.value).join(", ");
-
-export const getTerminalsToString = (grammar: Grammar) =>
-  grammar.terminals.map((x) => x.value).join(", ");
-
-export const getStartSymbolToString = (grammar: Grammar) =>
-  grammar.startSymbol.value;
-
-export const getProductionsToString = (grammar: Grammar) =>
-  grammar.productions
-    .map(
-      (production) =>
-        `${production.id}: \t${production.from.value} -> ${production.to
-          .map((x) => x.value)
-          .join(" ")}`
-    )
-    .join("\n");
-
-export const getProductionsForNonTerminalToString = (
-  grammar: Grammar,
-  nonTerminal: string
-) =>
-  grammar.productions
-    .filter((production) => production.from.value == nonTerminal)
-    .map(
-      (production) =>
-        `${production.id}: \t${production.from.value} -> ${production.to
-          .map((x) => x.value)
-          .join(" ")}`
-    )
-    .join("\n");
-
-export const checkContextFree = (grammar: Grammar) =>
-  grammar.productions.every((production) =>
-    grammar.nonTerminals.some(
-      (nonTerminal) => nonTerminal.value == production.from.value
-    )
-  );
-
-export const getProductionsForNonTerminal = (
-  grammar: Grammar,
-  symbol: Symbol
-) =>
-  grammar.productions.filter(
-    (production) => production.from.value == symbol.value
-  );
