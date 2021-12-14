@@ -10,7 +10,9 @@ export interface CanonicalCollection {
   closures: Array<Closure>;
 }
 
-export const toCanonicalCollection = (grammar: Grammar) => {
+export const toCanonicalCollection = (
+  grammar: Grammar
+): CanonicalCollection => {
   const canonicalCollection: Array<Closure> = [];
 
   const start = getProductionsForNonTerminal(grammar, grammar.startSymbol);
@@ -31,12 +33,16 @@ export const toCanonicalCollection = (grammar: Grammar) => {
     }
   }
 
-  return canonicalCollection;
+  return {
+    closures: canonicalCollection.map((closure) =>
+      removeDuplicatesFromClosure(closure)
+    ),
+  };
 };
 
 const closureIsEmpty = (closure: Closure) => closure.productions.length == 0;
 
-const closureEquals = (first: Closure, second: Closure) =>
+export const closureEquals = (first: Closure, second: Closure) =>
   first.productions.every((production) =>
     closureContainsProduction(second, production)
   ) &&
@@ -65,3 +71,11 @@ const containsClosure = (
   canonicalCollection.some((collectionClosure) =>
     closureEquals(collectionClosure, closure)
   );
+
+export const removeDuplicatesFromClosure = (closure: Closure): Closure => ({
+  ...closure,
+  productions: closure.productions.filter(
+    (production, index, self) =>
+      index === self.findIndex((p) => productionEquals(p, production))
+  ),
+});

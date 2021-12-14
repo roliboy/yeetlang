@@ -1,9 +1,10 @@
 import { parse } from "https://deno.land/std/flags/mod.ts";
 import { readFile } from "./util.ts";
 import { grammarFromRaw, createAugmentedGrammar } from "./grammar.ts";
-import { getProductionClosure } from "./closure.ts";
-import { advance, moveMarker } from "./goto.ts";
 import { toCanonicalCollection } from "./canonical_collection.ts";
+import { createParsingTable } from "./parsing_table.ts";
+import { parseSequence } from "./parser.ts";
+import { reconstructParserOutput } from "./parser_output.ts";
 
 const args = parse(Deno.args);
 
@@ -30,4 +31,15 @@ const augmentedGrammar = createAugmentedGrammar(initialGrammar);
 
 const canonicalCollection = toCanonicalCollection(augmentedGrammar);
 
-console.log(JSON.stringify({ canonicalCollection }, null, 2));
+// console.log(JSON.stringify({ canonicalCollection }, null, 2));
+
+const parsingTable = createParsingTable(canonicalCollection, augmentedGrammar);
+
+const sequence = "abda";
+const parsedSequence = parseSequence(parsingTable, augmentedGrammar, sequence);
+
+const snapshots = reconstructParserOutput(parsedSequence, augmentedGrammar);
+
+snapshots.forEach((snapshot) => {
+  console.log(snapshot.map((x) => x.value).join(""));
+});
