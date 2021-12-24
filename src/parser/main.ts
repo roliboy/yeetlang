@@ -35,7 +35,7 @@ const canonicalCollection = toCanonicalCollection(augmentedGrammar);
 
 const parsingTable = createParsingTable(canonicalCollection, augmentedGrammar);
 
-const sequence = "abda";
+const sequence = "abcda";
 const parsedSequence = parseSequence(parsingTable, augmentedGrammar, sequence);
 
 const snapshots = reconstructParserOutput(parsedSequence, augmentedGrammar);

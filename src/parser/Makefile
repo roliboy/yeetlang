@@ -1,3 +1,3 @@
 PHONY: run
 run:
-	deno run --allow-read main.ts -i g2.txt
+	deno run --allow-read main.ts -i g1.txt

@@ -1,5 +1,5 @@
 S, A
-a, b, c
+a, b, c, d
 S
-S -> a A
-A -> b A | c
+S -> a S a | b A
+A -> c A | d

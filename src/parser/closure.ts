@@ -30,23 +30,6 @@ export const getProductionClosure = (
   return { productions: closure };
 };
 
-// export const closureContainsProduction = (
-//   closure: Closure,
-//   production: Production2
-// ) =>
-//   closure.productions
-//     .map((closureProduction) => productionEquals(production, closureProduction))
-//     .some((equals) => equals == true);
-
-// export const productionEquals = (first: Production, second: Production) => {
-//   if (first.from.value != second.from.value) return false;
-//   if (first.to.length != second.to.length) return false;
-//   return Array(first.to.length)
-//     .fill(false)
-//     .map((_, index) => first.to[index].value == second.to[index].value)
-//     .every((equals) => equals == true);
-// };
-
 export const getNextSymbol = (production: Production) => {
   const index = production.to.findIndex(
     (symbol) => symbol.value == MARKER.value
